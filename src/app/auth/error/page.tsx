@@ -1,37 +1,31 @@
 // src/app/auth/error/page.tsx
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+export const runtime = 'nodejs';
+
+
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { AlertTriangle, Home, LogIn } from "lucide-react";
 
-export default function AuthErrorPage() {
+// Separate component that uses useSearchParams
+function ErrorContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
   
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
-  useEffect(() => {
+  const errorMessage = (() => {
     switch (error) {
-      case "CredentialsSignin":
-        setErrorMessage("Invalid email or password");
-        break;
-      case "Configuration":
-        setErrorMessage("There is a problem with the server configuration");
-        break;
-      case "AccessDenied":
-        setErrorMessage("Access denied");
-        break;
-      case "Verification":
-        setErrorMessage("The verification link was invalid or has expired");
-        break;
-      case "Default":
-      default:
-        setErrorMessage("An unknown error occurred");
-        break;
+      case "CredentialsSignin": return "Invalid email or password";
+      case "Configuration": return "There is a problem with the server configuration";
+      case "AccessDenied": return "Access denied";
+      case "Verification": return "The verification link was invalid or has expired";
+      default: return "An unknown error occurred";
     }
-  }, [error]);
+  })();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -44,7 +38,7 @@ export default function AuthErrorPage() {
             Authentication Error
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            {errorMessage || "Something went wrong during authentication"}
+            {errorMessage}
           </p>
         </div>
 
@@ -83,5 +77,13 @@ export default function AuthErrorPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthErrorPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <ErrorContent />
+    </Suspense>
   );
 }

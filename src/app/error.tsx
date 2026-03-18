@@ -1,5 +1,8 @@
 // src/app/error.tsx
 "use client";
+
+export const dynamic = 'force-dynamic';
+
 import { Suspense } from "react";
 import { useEffect } from "react";
 import Link from "next/link";

@@ -1,4 +1,7 @@
 // src/app/(auth)/verify-email/page.tsx
+
+export const dynamic = 'force-dynamic';
+
 import { redirect } from "next/navigation";
 import { getServerSession } from "@/lib/auth";
 import { authOptions } from "@/lib/auth-options";
@@ -9,6 +12,7 @@ import { Shield, Mail } from "lucide-react";
 import Link from "next/link";
 import { APP_TITLE } from "@/lib/constants";
 import type { Metadata } from "next";
+
 
 export const metadata: Metadata = {
   title: "Verify Email",

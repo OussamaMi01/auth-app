@@ -1,4 +1,7 @@
 // src/app/page.tsx
+
+export const dynamic = 'force-dynamic';
+
 import Link from "next/link";
 import { getServerSession } from "@/lib/auth";
 import { authOptions } from "@/lib/auth-options";

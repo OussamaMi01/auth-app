@@ -1,5 +1,12 @@
-// src/app/(auth)/signup/page.tsx  (move from src/app/signup/page.tsx)
-"use client";
+// src/app/(auth)/signup/page.tsx
+'use client';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+export const runtime = 'nodejs';
+
+
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -87,7 +94,6 @@ export default function SignUpPage() {
 
   return (
     <div className="auth-bg">
-      {/* Nav */}
       <nav className="auth-nav">
         <Link href="/" className="auth-logo">
           <span className="auth-logo-icon"><Shield size={17} /></span>
@@ -98,7 +104,6 @@ export default function SignUpPage() {
         </Link>
       </nav>
 
-      {/* Card */}
       <div className="auth-card auth-card-wide">
         <div className="auth-header">
           <div className="auth-icon-wrap">
@@ -122,7 +127,6 @@ export default function SignUpPage() {
         )}
 
         <form onSubmit={handleSubmit}>
-          {/* Name */}
           <div className="field">
             <label htmlFor="name" className="field-label">Full name</label>
             <div className="input-wrap">
@@ -140,7 +144,6 @@ export default function SignUpPage() {
             </div>
           </div>
 
-          {/* Email */}
           <div className="field">
             <label htmlFor="email" className="field-label">Email</label>
             <div className="input-wrap">
@@ -158,7 +161,6 @@ export default function SignUpPage() {
             </div>
           </div>
 
-          {/* Password */}
           <div className="field">
             <label htmlFor="password" className="field-label">Password</label>
             <div className="input-wrap">
@@ -177,7 +179,6 @@ export default function SignUpPage() {
               </button>
             </div>
 
-            {/* Password requirements */}
             {password.length > 0 && (
               <div className="pw-reqs">
                 {[
@@ -198,7 +199,6 @@ export default function SignUpPage() {
             )}
           </div>
 
-          {/* Confirm password */}
           <div className="field">
             <label htmlFor="confirmPassword" className="field-label">Confirm password</label>
             <div className="input-wrap">
@@ -223,7 +223,6 @@ export default function SignUpPage() {
             )}
           </div>
 
-          {/* Terms */}
           <div className="checkbox-row" style={{ marginBottom: "20px" }}>
             <input id="terms" type="checkbox" required className="auth-checkbox" />
             <label htmlFor="terms" className="checkbox-label">

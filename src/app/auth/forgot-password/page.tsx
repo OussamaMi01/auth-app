@@ -1,4 +1,7 @@
 // src/app/(auth)/forgot-password/page.tsx
+
+export const dynamic = 'force-dynamic';
+
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { KeyRound, Shield, ArrowLeft } from "lucide-react";

@@ -1,5 +1,12 @@
 // src/app/(auth)/signin/page.tsx
-"use client";
+
+'use client';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+export const runtime = 'nodejs';
+
 
 import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
@@ -8,7 +15,7 @@ import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock, Shield, AlertCircle } from "lucide-react";
 import { APP_TITLE } from "@/lib/constants";
 
-// Separate component that uses useSearchParams — must be inside Suspense
+// Separate component that uses useSearchParams
 function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -156,10 +163,9 @@ export default function SignInPage() {
         <Link href="/signup" className="auth-nav-link">Create account →</Link>
       </nav>
 
-      {/* Suspense required because SignInForm uses useSearchParams */}
       <Suspense fallback={
         <div className="auth-card" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 300 }}>
-          <span className="spinner" style={{ borderTopColor: "var(--accent)" }} />
+          <div className="spinner" />
         </div>
       }>
         <SignInForm />

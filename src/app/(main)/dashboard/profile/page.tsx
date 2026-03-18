@@ -1,4 +1,7 @@
 // src/app/(main)/dashboard/profile/page.tsx
+
+export const dynamic = 'force-dynamic';
+
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { User, Trash2, Shield, Mail, CheckCircle2, XCircle } from "lucide-react";

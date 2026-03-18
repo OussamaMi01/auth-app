@@ -1,4 +1,6 @@
 // src/app/(main)/dashboard/security/page.tsx
+export const dynamic = 'force-dynamic';
+
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Shield, Key, Download, CheckCircle2, XCircle, Mail, User } from "lucide-react";

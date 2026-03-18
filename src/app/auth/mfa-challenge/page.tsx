@@ -1,4 +1,7 @@
 // src/app/(auth)/mfa-challenge/page.tsx
+
+export const dynamic = 'force-dynamic';
+
 import { redirect } from "next/navigation";
 import { getServerSession } from "@/lib/auth";
 import { authOptions } from "@/lib/auth-options";
@@ -22,6 +25,7 @@ function isNextRedirect(error: unknown): boolean {
     (error as { digest: string }).digest.startsWith("NEXT_REDIRECT")
   );
 }
+
 
 export default async function MfaChallengePage() {
   let session;
