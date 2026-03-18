@@ -18,7 +18,7 @@
 /.next/
 /out/
 next-env.d.ts
-next-auth.d.ts
+
 # production
 /build
 
