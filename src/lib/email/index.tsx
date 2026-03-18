@@ -9,6 +9,7 @@ import { EMAIL_SENDER } from "@/lib/constants";
 import { createTransport } from "nodemailer";
 import type { ComponentProps } from "react";
 import { logger } from "../logger";
+import nodemailer from "nodemailer";
 
 export enum EmailTemplate {
   EmailVerification = "EmailVerification",
@@ -51,7 +52,7 @@ const getEmailTemplate = <T extends EmailTemplate>(
 // ── Gmail-correct transporter ─────────────────────────────────────────────────
 // Port 587 → secure: false + requireTLS: true  (STARTTLS)
 // Port 465 → secure: true                      (SSL — alternative)
-const transporter = createTransport({
+const transporter = nodemailer.createTransport({
   host: env.SMTP_HOST,
   port: env.SMTP_PORT,
   secure: env.SMTP_PORT === 465, // true only for port 465, false for 587
