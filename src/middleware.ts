@@ -1,28 +1,71 @@
-// middleware.ts
-import { verifyRequestOrigin } from "lucia";
+// src/middleware.ts
 import { NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest): Promise<NextResponse> {
-  if (request.method === "GET") {
-    return NextResponse.next();
+export async function middleware(request: NextRequest) {
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+
+  const { pathname } = request.nextUrl;
+
+  const isProtected = ["/dashboard", "/settings", "/profile"].some((p) =>
+    pathname.startsWith(p)
+  );
+  const isPublicAuth = ["/signin", "/signup"].some((p) =>
+    pathname.startsWith(p)
+  );
+
+  // ── 1. No session → signin ────────────────────────────────────────────────
+  if (isProtected && !token) {
+    const url = new URL("/signin", request.url);
+    url.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(url);
   }
-  const originHeader = request.headers.get("Origin");
-  const hostHeader = request.headers.get("Host");
-  if (
-    !originHeader ||
-    !hostHeader ||
-    !verifyRequestOrigin(originHeader, [hostHeader])
-  ) {
-    return new NextResponse(null, {
-      status: 403,
-    });
+
+  if (token) {
+    // ── 2. Email not verified → verify-email ───────────────────────────────
+    if (!token.emailVerified && isProtected) {
+      return NextResponse.redirect(new URL("/verify-email", request.url));
+    }
+
+    // ── 3. TOTP enabled but MFA not passed this session → mfa-challenge ────
+    if (
+      token.emailVerified &&
+      token.totpEnabled &&
+      !token.mfaPassed &&
+      isProtected
+    ) {
+      return NextResponse.redirect(new URL("/mfa-challenge", request.url));
+    }
+
+    // ── 4. TOTP not set up yet → setup-totp ────────────────────────────────
+    // Since MFA is required for all users, enforce setup after email verification
+    if (
+      token.emailVerified &&
+      !token.totpEnabled &&
+      isProtected
+    ) {
+      return NextResponse.redirect(new URL("/setup-totp", request.url));
+    }
+
+    // ── 5. Fully authenticated → skip public auth pages ────────────────────
+    if (isPublicAuth) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
   }
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    "/((?!api|static|.*\\..*|_next|favicon.ico|sitemap.xml|robots.txt).*)",
+    "/dashboard/:path*",
+    "/settings/:path*",
+    "/profile/:path*",
+    "/signin",
+    "/signup",
   ],
 };

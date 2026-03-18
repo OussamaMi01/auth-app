@@ -1,19 +1,23 @@
+// src/app/(main)/layout.tsx
+import type { ReactNode } from "react";
+import { DM_Sans, DM_Mono, Syne } from "next/font/google";
 import { DashboardNav } from "./_components/dashboard-nav";
-import { VerificiationWarning } from "./_components/verificiation-warning";
+import { VerificationWarning } from "./_components/verificiation-warning";
+import "./dashboard.css";
 
-interface Props {
-  children: React.ReactNode;
-}
+const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300","400","500"], variable: "--font-dm-sans", display: "swap" });
+const dmMono = DM_Mono({ subsets: ["latin"], weight: ["400","500"], variable: "--font-dm-mono", display: "swap" });
+const syne   = Syne({ subsets: ["latin"], weight: ["700","800"], variable: "--font-syne", display: "swap" });
 
-export default function DashboardLayout({ children }: Props) {
+export default function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="container min-h-[calc(100vh-180px)] px-2 pt-6 md:px-4">
-      <div className="flex flex-col gap-6 md:flex-row lg:gap-10">
-        <DashboardNav className="flex flex-shrink-0 gap-2 md:w-48 md:flex-col lg:w-80" />
-        <main className="w-full space-y-4">
-          <VerificiationWarning />
-          <div>{children}</div>
-        </main>
+    <div className={`${dmSans.variable} ${dmMono.variable} ${syne.variable}`}>
+      <div className="dash-shell">
+        <DashboardNav />
+        <div className="dash-content">
+          <VerificationWarning />
+          {children}
+        </div>
       </div>
     </div>
   );

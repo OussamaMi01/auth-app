@@ -1,28 +1,27 @@
-import { ExclamationTriangleIcon } from "@/components/icons";
-
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { validateRequest } from "@/lib/auth/validate-request";
+// src/app/(main)/_components/verificiation-warning.tsx
+import { getServerSession } from "@/lib/auth";
+import { authOptions } from "@/lib/auth-options";
+import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
 
-export async function VerificiationWarning() {
-  const { user } = await validateRequest();
+export async function VerificationWarning() {
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
 
-  return user?.emailVerified === false ? (
-    <Alert className="rounded-lg bg-yellow-50 text-yellow-700 dark:bg-gray-800 dark:text-yellow-400">
-      <ExclamationTriangleIcon className="h-5 w-5 !text-yellow-700 dark:!text-yellow-400" />
-      <div className="flex lg:items-center">
-        <div className="w-full">
-          <AlertTitle>Account verification required</AlertTitle>
-          <AlertDescription>
-            A verification email has been sent to your email address. Please verify your account to
-            access all features.
-          </AlertDescription>
-        </div>
-        <Button size="sm" asChild>
-          <Link href="/verify-email">Verify Email</Link>
-        </Button>
+  if (!user || user.emailVerified !== false) return null;
+
+  return (
+    <div className="dash-warning">
+      <AlertTriangle size={15} className="dash-warning-icon" />
+      <div>
+        <p className="dash-warning-title">Account verification required</p>
+        <p className="dash-warning-desc">
+          A verification email has been sent to your address. Verify your account to access all features.
+        </p>
       </div>
-    </Alert>
-  ) : null;
+      <Link href="/verify-email" className="dash-warning-btn">
+        verify →
+      </Link>
+    </div>
+  );
 }

@@ -1,6 +1,6 @@
 export const testUser = {
   name: "Test User",
-  email: "test@saasykits.com",
+  email: "oussama.missaoui.it@gmail.com",
   password: "testPass123",
 };
 

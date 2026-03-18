@@ -1,22 +1,25 @@
 import { db } from "@/server/db";
-import { users } from "@/server/db/schema";
+import { connectDB } from "@/server/db";
+import { User, EmailVerificationCode, PasswordResetToken } from "@/server/db/model";
 import { test, expect } from "@playwright/test";
 import { eq } from "drizzle-orm";
 import { extractLastCode, testUser } from "./utils";
 import { readFileSync } from "fs";
 
-test.beforeAll(() => {
-  db.delete(users)
-    .where(eq(users.email, testUser.email))
-    .catch((error) => {
-      console.error(error);
-    });
+test.beforeAll(async () => {
+
+  await connectDB();
+  await Promise.all([
+    User.deleteMany({}),
+    EmailVerificationCode.deleteMany({}),
+    PasswordResetToken.deleteMany({}),
+  ]);
 });
 
 test.describe("signup and login", () => {
   test("signup", async ({ page }) => {
     await page.goto("/");
-    await page.getByText("login").click();
+    await page.getByText(/sign in/i).click();
     await page.getByText(/sign up/i).click();
     await page.waitForURL("/signup");
     await page.getByLabel("Email").fill(testUser.email);
@@ -32,7 +35,7 @@ test.describe("signup and login", () => {
   });
   test("login and logout", async ({ page }) => {
     await page.goto("/");
-    await page.getByText("login").click();
+    await page.getByText(/sign in/i).click();
     await page.getByLabel("Email").fill(testUser.email);
     await page.getByLabel("Password").fill(testUser.password);
     await page.getByLabel("submit-btn").click();

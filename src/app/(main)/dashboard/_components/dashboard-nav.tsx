@@ -1,52 +1,46 @@
+// src/app/(main)/_components/dashboard-nav.tsx
 "use client";
 
-import { CreditCard, FileTextIcon, GearIcon } from "@/components/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import { cn } from "@/lib/utils";
+import { Shield } from "lucide-react";
+import { HomeIcon, UserIcon, ShieldIcon, GearIcon } from "@/components/icons";
+import { APP_TITLE } from "@/lib/constants";
 
 const items = [
-  {
-    title: "Posts",
-    href: "/dashboard",
-    icon: FileTextIcon,
-  },
-
-  {
-    title: "Billing",
-    href: "/dashboard/billing",
-    icon: CreditCard,
-  },
-  {
-    title: "Settings",
-    href: "/dashboard/settings",
-    icon: GearIcon,
-  },
+  { title: "Dashboard", href: "/dashboard",          icon: HomeIcon },
+  { title: "Profile",   href: "/dashboard/profile",  icon: UserIcon },
+  { title: "Security",  href: "/dashboard/security", icon: ShieldIcon },
+  { title: "Settings",  href: "/dashboard/settings", icon: GearIcon },
 ];
 
-interface Props {
-  className?: string;
-}
-
-export function DashboardNav({ className }: Props) {
+export function DashboardNav() {
   const path = usePathname();
 
   return (
-    <nav className={cn(className)}>
-      {items.map((item) => (
-        <Link href={item.href} key={item.href}>
-          <span
-            className={cn(
-              "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
-              path === item.href ? "bg-accent" : "transparent",
-            )}
-          >
-            <item.icon className="mr-2 h-4 w-4" />
-            <span>{item.title}</span>
-          </span>
-        </Link>
-      ))}
-    </nav>
+    <header className="dash-topbar">
+      {/* Logo */}
+      <Link href="/dashboard" className="dash-logo">
+        <span className="dash-logo-icon"><Shield size={16} /></span>
+        {APP_TITLE}
+      </Link>
+
+      {/* Nav items */}
+      <nav className="dash-nav">
+        {items.map((item) => {
+          const active = path === item.href || path.startsWith(item.href + "/");
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`dash-nav-item${active ? " active" : ""}`}
+            >
+              <item.icon style={{ width: 14, height: 14, flexShrink: 0 }} />
+              <span>{item.title}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    </header>
   );
 }

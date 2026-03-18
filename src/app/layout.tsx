@@ -1,27 +1,14 @@
-import "@/styles/globals.css";
+// src/app/layout.tsx
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Providers } from "./providers";
+import "../styles/globals.css";
 
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
-import { APP_TITLE } from "@/lib/constants";
-import { fontSans } from "@/lib/fonts";
-import { cn } from "@/lib/utils";
-import { TRPCReactProvider } from "@/trpc/react";
-import type { Metadata, Viewport } from "next";
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: {
-    default: APP_TITLE,
-    template: `%s | ${APP_TITLE}`,
-  },
-  description: "Acme - Simple auth with lucia and trpc",
-  icons: [{ rel: "icon", url: "/icon.png" }],
-};
-
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
+  title: "Auth App",
+  description: "Authentication application",
 };
 
 export default function RootLayout({
@@ -30,22 +17,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <TRPCReactProvider>{children}</TRPCReactProvider>
-          <Toaster />
-        </ThemeProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

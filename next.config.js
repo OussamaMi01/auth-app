@@ -1,4 +1,5 @@
-await import("./src/env.js");
+// @ts-ignore
+await import("./src/env.ts");
 
 /** @type {import("next").NextConfig} */
 const config = {};

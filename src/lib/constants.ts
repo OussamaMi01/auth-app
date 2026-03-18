@@ -1,13 +1,13 @@
-export const APP_TITLE = "Acme";
-export const DATABASE_PREFIX = "acme";
-export const TEST_DB_PREFIX = "test_acme";
-export const EMAIL_SENDER = '"Acme" <noreply@acme.com>';
 
-export enum Paths {
-  Home = "/",
-  Login = "/login",
-  Signup = "/signup",
-  Dashboard = "/dashboard",
-  VerifyEmail = "/verify-email",
-  ResetPassword = "/reset-password",
-}
+export const EMAIL_SENDER = '"Acme" <oussama.missaoui.it@gmail.com>';
+export const APP_TITLE = "AuthApp";
+export const APP_DESCRIPTION = "A modern authentication application";
+export const Paths = {
+  Home: "/",
+  Dashboard: "/dashboard",
+  Login: "/signin",
+  Signup: "/signup",
+  VerifyEmail: "/verify-email",
+  ForgotPassword: "/forgot-password",
+  ResetPassword: "/reset-password",
+} as const;

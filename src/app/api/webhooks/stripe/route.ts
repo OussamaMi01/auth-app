@@ -5,7 +5,7 @@ import type Stripe from "stripe";
 import { env } from "@/env";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/server/db";
-import { users } from "@/server/db/schema";
+import { users } from "@/server/db/model";
 import { eq } from "drizzle-orm";
 
 export async function POST(req: Request) {
