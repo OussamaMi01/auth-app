@@ -69,7 +69,7 @@ export async function checkRateLimit(
 // ─── IP helper ────────────────────────────────────────────────────────────────
 
 export function getClientIp(request: Request): string {
-  const headers = request.headers as Headers;
+  const headers = request.headers;
   return (
     headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     headers.get("x-real-ip") ??

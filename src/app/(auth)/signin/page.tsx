@@ -1,17 +1,18 @@
-// src/app/(auth)/signin/page.tsx  (move from src/app/signin/page.tsx)
+// src/app/(auth)/signin/page.tsx
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock, Shield, AlertCircle } from "lucide-react";
 import { APP_TITLE } from "@/lib/constants";
 
-export default function SignInPage() {
+// Separate component that uses useSearchParams — must be inside Suspense
+function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
   const urlError = searchParams.get("error");
 
   const [email, setEmail] = useState("");
@@ -64,104 +65,105 @@ export default function SignInPage() {
   const error = formError || (urlError ? "Authentication failed. Please try again." : "");
 
   return (
+    <div className="auth-card">
+      <div className="auth-header">
+        <div className="auth-icon-wrap">
+          <Lock size={18} />
+        </div>
+        <h1 className="auth-title">Welcome back</h1>
+        <p className="auth-subtitle">Sign in to your account to continue</p>
+      </div>
+
+      {error && (
+        <div className="alert alert-error">
+          <AlertCircle size={14} className="alert-icon" />
+          {error}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <div className="field">
+          <label htmlFor="email" className="field-label">Email</label>
+          <div className="input-wrap">
+            <span className="input-icon"><Mail size={15} /></span>
+            <input
+              id="email"
+              type="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="auth-input"
+              placeholder="you@example.com"
+            />
+          </div>
+        </div>
+
+        <div className="field">
+          <div className="field-row">
+            <label htmlFor="password" className="field-label">Password</label>
+            <Link href="/forgot-password" className="field-link">forgot?</Link>
+          </div>
+          <div className="input-wrap">
+            <span className="input-icon"><Lock size={15} /></span>
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="auth-input has-right"
+              placeholder="••••••••"
+            />
+            <button
+              type="button"
+              className="input-icon-right"
+              onClick={() => setShowPassword((v) => !v)}
+            >
+              {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+            </button>
+          </div>
+        </div>
+
+        <div className="checkbox-row" style={{ marginBottom: "20px" }}>
+          <input id="remember" type="checkbox" className="auth-checkbox" />
+          <label htmlFor="remember" className="checkbox-label">Remember me</label>
+        </div>
+
+        <button type="submit" disabled={loading} className="btn-auth btn-auth-primary">
+          {loading ? <><span className="spinner" /> Signing in…</> : "Sign in"}
+        </button>
+      </form>
+
+      <div className="auth-divider"><span>or</span></div>
+
+      <Link href="/signup" className="btn-auth btn-auth-ghost" style={{ textDecoration: "none" }}>
+        Create new account
+      </Link>
+    </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
     <div className="auth-bg">
-      {/* Nav */}
       <nav className="auth-nav">
         <Link href="/" className="auth-logo">
           <span className="auth-logo-icon"><Shield size={17} /></span>
           {APP_TITLE}
         </Link>
-        <Link href="/signup" className="auth-nav-link">
-          Create account →
-        </Link>
+        <Link href="/signup" className="auth-nav-link">Create account →</Link>
       </nav>
 
-      {/* Card */}
-      <div className="auth-card">
-        <div className="auth-header">
-          <div className="auth-icon-wrap">
-            <Lock size={18} />
-          </div>
-          <h1 className="auth-title">Welcome back</h1>
-          <p className="auth-subtitle">Sign in to your account to continue</p>
+      {/* Suspense required because SignInForm uses useSearchParams */}
+      <Suspense fallback={
+        <div className="auth-card" style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 300 }}>
+          <span className="spinner" style={{ borderTopColor: "var(--accent)" }} />
         </div>
-
-        {error && (
-          <div className="alert alert-error">
-            <AlertCircle size={14} className="alert-icon" />
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          {/* Email */}
-          <div className="field">
-            <label htmlFor="email" className="field-label">Email</label>
-            <div className="input-wrap">
-              <span className="input-icon"><Mail size={15} /></span>
-              <input
-                id="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="auth-input has-right"
-                placeholder="you@example.com"
-              />
-            </div>
-          </div>
-
-          {/* Password */}
-          <div className="field">
-            <div className="field-row">
-              <label htmlFor="password" className="field-label">Password</label>
-              <Link href="/forgot-password" className="field-link">forgot?</Link>
-            </div>
-            <div className="input-wrap">
-              <span className="input-icon"><Lock size={15} /></span>
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="auth-input has-right"
-                placeholder="••••••••"
-              />
-              <button
-                type="button"
-                className="input-icon-right"
-                onClick={() => setShowPassword((v) => !v)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Remember me */}
-          <div className="checkbox-row" style={{ marginBottom: "20px" }}>
-            <input id="remember" type="checkbox" className="auth-checkbox" />
-            <label htmlFor="remember" className="checkbox-label">Remember me</label>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="btn-auth btn-auth-primary"
-          >
-            {loading ? <><span className="spinner" /> Signing in…</> : "Sign in"}
-          </button>
-        </form>
-
-        <div className="auth-divider"><span>or</span></div>
-
-        <Link href="/signup" className="btn-auth btn-auth-ghost" style={{ textDecoration: "none" }}>
-          Create new account
-        </Link>
-      </div>
+      }>
+        <SignInForm />
+      </Suspense>
 
       <p className="auth-footer-note">
         By signing in you agree to our{" "}

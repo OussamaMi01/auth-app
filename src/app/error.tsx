@@ -1,11 +1,15 @@
 // src/app/error.tsx
 "use client";
-
+import { Suspense } from "react";
 import { useEffect } from "react";
 import Link from "next/link";
 import { AlertCircle, RefreshCw } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
+const searchParams = useSearchParams();
+  const error = searchParams.get("error");
 export default function Error({
+    
   error,
   reset,
 }: {
@@ -18,6 +22,7 @@ export default function Error({
   }, [error]);
 
   return (
+     <Suspense fallback={<div className="auth-bg" />}>
     <div style={{
       minHeight: "100vh", background: "#080b0f",
       display: "flex", alignItems: "center", justifyContent: "center", padding: "24px",
@@ -69,5 +74,6 @@ export default function Error({
         </div>
       </div>
     </div>
+    </Suspense>
   );
 }

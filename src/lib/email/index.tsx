@@ -97,7 +97,7 @@ export const sendMail = async <T extends EmailTemplate>(
       from: EMAIL_SENDER,
       to,
       subject,
-      html: await body,
+      html: body,
     });
     return info;
   } catch (error) {

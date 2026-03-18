@@ -18,17 +18,17 @@ export function VerifyCard({ email, emailVerified, userId }: VerifyCardProps) {
 
   const handleResend = async () => {
     if (countdown > 0 || isResending) return;
-    
+
     setIsResending(true);
-    
+
     try {
       const formData = new FormData();
       formData.append("email", email);
       formData.append("userId", userId);
-      
-      const result = await sendVerificationEmailAction(null, formData);
-      
-      
+
+      const result = await sendVerificationEmailAction({}, formData);
+
+
     } catch (error) {
       toast.error("Failed to send verification email");
     } finally {
@@ -48,11 +48,10 @@ export function VerifyCard({ email, emailVerified, userId }: VerifyCardProps) {
           <h4 className="font-medium text-gray-900">Email Address</h4>
           <p className="text-sm text-gray-500 mt-1">{email}</p>
         </div>
-        <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-          emailVerified 
-            ? 'bg-green-100 text-green-800' 
+        <div className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${emailVerified
+            ? 'bg-green-100 text-green-800'
             : 'bg-amber-100 text-amber-800'
-        }`}>
+          }`}>
           {emailVerified ? (
             <>
               <CheckCircle className="h-4 w-4 mr-1.5" />
