@@ -47,4 +47,4 @@ application.log
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-tests/e2e/output
+tests/e2e/output.devcontainer/
