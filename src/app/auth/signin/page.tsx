@@ -107,7 +107,7 @@ function SignInForm() {
         <div className="field">
           <div className="field-row">
             <label htmlFor="password" className="field-label">Password</label>
-            <Link href="/forgot-password" className="field-link">forgot?</Link>
+            <Link href="/auth/forgot-password" className="field-link">forgot?</Link>
           </div>
           <div className="input-wrap">
             <span className="input-icon"><Lock size={15} /></span>
@@ -143,7 +143,7 @@ function SignInForm() {
 
       <div className="auth-divider"><span>or</span></div>
 
-      <Link href="/signup" className="btn-auth btn-auth-ghost" style={{ textDecoration: "none" }}>
+      <Link href="/auth/signup" className="btn-auth btn-auth-ghost" style={{ textDecoration: "none" }}>
         Create new account
       </Link>
     </div>
@@ -158,7 +158,7 @@ export default function SignInPage() {
           <span className="auth-logo-icon"><Shield size={17} /></span>
           {APP_TITLE}
         </Link>
-        <Link href="/signup" className="auth-nav-link">Create account →</Link>
+        <Link href="/auth/signup" className="auth-nav-link">Create account →</Link>
       </nav>
 
       <Suspense fallback={

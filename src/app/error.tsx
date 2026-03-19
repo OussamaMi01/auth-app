@@ -9,23 +9,12 @@ import Link from "next/link";
 import { AlertCircle, RefreshCw } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 
-const searchParams = useSearchParams();
-  const error = searchParams.get("error");
-export default function Error({
-    
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
-  useEffect(() => {
-    // Log to your error tracking service here (e.g. Sentry)
-    console.error("[error boundary]", error);
-  }, [error]);
+// Create a separate component that uses useSearchParams
+function ErrorContent({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  const searchParams = useSearchParams();
+  const errorParam = searchParams.get("error");
 
   return (
-     <Suspense fallback={<div className="auth-bg" />}>
     <div style={{
       minHeight: "100vh", background: "#080b0f",
       display: "flex", alignItems: "center", justifyContent: "center", padding: "24px",
@@ -47,6 +36,14 @@ export default function Error({
         <p style={{ fontSize: "13px", color: "#5a7080", lineHeight: 1.6, marginBottom: "24px" }}>
           An unexpected error occurred. If this keeps happening, please contact support.
         </p>
+        {errorParam && (
+          <p style={{
+            fontSize: "11px", color: "#ff4d6d",
+            fontFamily: "monospace", marginBottom: "20px",
+          }}>
+            Error: {errorParam}
+          </p>
+        )}
         {error.digest && (
           <p style={{
             fontSize: "11px", color: "#2e3d4a",
@@ -77,6 +74,24 @@ export default function Error({
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    // Log to your error tracking service here (e.g. Sentry)
+    console.error("[error boundary]", error);
+  }, [error]);
+
+  return (
+    <Suspense fallback={<div className="auth-bg" style={{ minHeight: "100vh", background: "#080b0f" }} />}>
+      <ErrorContent error={error} reset={reset} />
     </Suspense>
   );
 }

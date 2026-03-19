@@ -507,8 +507,8 @@ export default async function LandingPage() {
             {APP_TITLE}
           </Link>
           <div className="nav-links">
-            <Link href="/signin" className="btn-ghost">Sign in</Link>
-            <Link href="/signup" className="btn-primary">
+            <Link href="/auth/signin" className="btn-ghost">Sign in</Link>
+            <Link href="/auth/signup" className="btn-primary">
               Get started <ArrowRight size={14} />
             </Link>
           </div>
