@@ -533,10 +533,10 @@ export default async function LandingPage() {
           </p>
 
           <div className="hero-actions">
-            <Link href="/signup" className="btn-large">
+            <Link href="/auth/signup" className="btn-large">
               Create account <ArrowRight size={16} />
             </Link>
-            <Link href="/signin" className="btn-outline">
+            <Link href="/auth/signin" className="btn-outline">
               <Lock size={15} />
               Sign in
             </Link>
