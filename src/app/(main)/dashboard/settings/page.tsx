@@ -35,10 +35,10 @@ function isNextRedirect(error: unknown): boolean {
 export default async function SettingsPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session?.user?.id) redirect("/signin");
-  if (!session.user.emailVerified) redirect("/verify-email");
-  if (!session.user.totpEnabled) redirect("/setup-totp");
-  if (!session.user.mfaPassed) redirect("/mfa-challenge");
+  if (!session?.user?.id) redirect("/auth/signin");
+  if (!session.user.emailVerified) redirect("/auth/verify-email");
+  if (!session.user.totpEnabled) redirect("/auth/setup-totp");
+  if (!session.user.mfaPassed) redirect("/auth/mfa-challenge");
 
   let user: {
     _id: string;
@@ -52,7 +52,7 @@ export default async function SettingsPage() {
   try {
     await connectDB();
     const userDoc = await UserModel.findById(session.user.id).lean();
-    if (!userDoc) redirect("/signin");
+    if (!userDoc) redirect("/auth/signin");
     user = {
       _id: userDoc._id.toString(),
       email: userDoc.email,
@@ -64,7 +64,7 @@ export default async function SettingsPage() {
   } catch (error) {
     if (isNextRedirect(error)) throw error;
     console.error("[settings] DB error:", error);
-    redirect("/signin");
+    redirect("/auth/signin");
   }
 
   const days = user.createdAt
@@ -254,12 +254,12 @@ export default async function SettingsPage() {
                 <User size={13} style={{ color: "var(--muted)" }} /> Go to Dashboard
               </Link>
               {!user.emailVerified && (
-                <Link href="/verify-email" className="d-action highlight">
+                <Link href="/auth/verify-email" className="d-action highlight">
                   <Mail size={13} /> Verify Email
                 </Link>
               )}
               {!user.totpEnabled && (
-                <Link href="/setup-totp" className="d-action highlight">
+                <Link href="/auth/setup-totp" className="d-action highlight">
                   <Shield size={13} /> Set Up 2FA
                 </Link>
               )}

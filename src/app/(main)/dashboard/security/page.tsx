@@ -32,10 +32,10 @@ function isNextRedirect(error: unknown): boolean {
 
 export default async function SecurityPage() {
   const session = await getServerSession(authOptions);
-  if (!session?.user?.id) redirect("/signin");
-  if (!session.user.emailVerified) redirect("/verify-email");
-  if (!session.user.totpEnabled) redirect("/setup-totp");
-  if (!session.user.mfaPassed) redirect("/mfa-challenge");
+  if (!session?.user?.id) redirect("/auth/signin");
+  if (!session.user.emailVerified) redirect("/auth/verify-email");
+  if (!session.user.totpEnabled) redirect("/auth/setup-totp");
+  if (!session.user.mfaPassed) redirect("/auth/mfa-challenge");
 
   let user: {
     _id: string;
@@ -50,7 +50,7 @@ export default async function SecurityPage() {
   try {
     await connectDB();
     const doc = await UserModel.findById(session.user.id).lean();
-    if (!doc) redirect("/signin");
+    if (!doc) redirect("/auth/signin");
     user = {
       _id: doc._id.toString(),
       email: doc.email,
@@ -62,7 +62,7 @@ export default async function SecurityPage() {
     };
   } catch (error) {
     if (isNextRedirect(error)) throw error;
-    redirect("/signin");
+    redirect("/auth/signin");
   }
 
   return (
