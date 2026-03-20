@@ -30,7 +30,7 @@ function isNextRedirect(error: unknown): boolean {
 export default async function MfaChallengePage() {
   let session;
   try { session = await getServerSession(authOptions); }
-  catch (e) { if (isNextRedirect(e)) throw e; redirect("/signin"); }
+  catch (e) { if (isNextRedirect(e)) throw e; redirect("/auth/signin"); }
 
   if (!session?.user?.id) redirect("/auth/signin");
   if (!session.user.emailVerified) redirect("/auth/verify-email");

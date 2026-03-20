@@ -10,4 +10,6 @@ export const Paths = {
   VerifyEmail: "/auth/verify-email",
   ForgotPassword: "/auth/forgot-password",
   ResetPassword: "/auth/reset-password",
+  SetupTOTP: "/auth/setup-totp",
+  MfaChallenge: "/auth/mfa-challenge",
 } as const;
