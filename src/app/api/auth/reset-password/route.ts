@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       expiresAt: new Date(Date.now() + 60 * 60 * 1000),
     });
 
-    const resetLink = `${env.NEXT_PUBLIC_APP_URL}/reset-password/${token}`;
+    const resetLink = `${env.NEXT_PUBLIC_APP_URL}/auth/reset-password/${token}`;
     await sendMail(normalizedEmail, EmailTemplate.PasswordReset, { link: resetLink });
 
     return NextResponse.json({ success: true, message: "Password reset link sent." }, { status: 200 });
