@@ -64,7 +64,7 @@ export function SetupTotpForm({ qrCodeUrl, secret }: Props) {
 
   async function handleDone() {
     await updateSession({ mfaPassed: false });
-    router.push("/mfa-challenge");
+    router.push("/auth/mfa-challenge");
     router.refresh();
   }
 
@@ -78,9 +78,7 @@ export function SetupTotpForm({ qrCodeUrl, secret }: Props) {
           border: "1px solid rgba(255,193,7,0.18)",
           borderRadius: "8px",
         }}>
-          <p style={{ fontSize: "12px", fontFamily: "'DM Mono', monospace", color: "#ffd060", marginBottom: "4px", letterSpacing: "0.04em" }}>
-            // SAVE THESE NOW
-          </p>
+          
           <p style={{ fontSize: "12px", color: "var(--muted)", lineHeight: "1.6" }}>
             Each code works once. Store them somewhere safe — they won&apos;t be shown again.
           </p>

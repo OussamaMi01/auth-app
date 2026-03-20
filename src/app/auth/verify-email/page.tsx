@@ -42,7 +42,7 @@ export default async function VerifyEmailPage() {
     if (user.emailVerified) redirect("/dashboard");
   } catch (error) {
     if (isNextRedirect(error)) throw error;
-    redirect("/signin");
+    redirect("/auth/signin");
   }
 
   return (

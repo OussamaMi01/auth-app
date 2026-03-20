@@ -32,9 +32,9 @@ export default async function MfaChallengePage() {
   try { session = await getServerSession(authOptions); }
   catch (e) { if (isNextRedirect(e)) throw e; redirect("/signin"); }
 
-  if (!session?.user?.id) redirect("/signin");
-  if (!session.user.emailVerified) redirect("/verify-email");
-  if (!session.user.totpEnabled) redirect("/setup-totp");
+  if (!session?.user?.id) redirect("/auth/signin");
+  if (!session.user.emailVerified) redirect("/auth/verify-email");
+  if (!session.user.totpEnabled) redirect("/auth/setup-totp");
   if (session.user.mfaPassed) redirect("/dashboard");
 
   return (

@@ -185,7 +185,7 @@ export function SendResetEmail() {
 
       <div className="text-center">
         <Link 
-          href={Paths.Signup || "/signup"}
+          href={Paths.Signup || "/auth/signup"}
           className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors"
         >
           Create new account

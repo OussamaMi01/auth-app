@@ -57,7 +57,7 @@ export default async function ForgotPasswordPage() {
           {/* Back to Sign In */}
           <div className="mt-6 text-center">
             <Link
-              href={Paths.Login || "/signin"}
+              href={Paths.Login || "/auth/signin"}
               className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />

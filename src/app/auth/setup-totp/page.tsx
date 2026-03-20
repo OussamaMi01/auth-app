@@ -31,14 +31,14 @@ function isNextRedirect(error: unknown): boolean {
 export default async function SetupTotpPage() {
   let session;
   try { session = await getServerSession(authOptions); }
-  catch (e) { if (isNextRedirect(e)) throw e; redirect("/signin"); }
+  catch (e) { if (isNextRedirect(e)) throw e; redirect("/auth/signin"); }
 
-  if (!session?.user?.id) redirect("/signin");
-  if (!session.user.emailVerified) redirect("/verify-email");
+  if (!session?.user?.id) redirect("/auth/signin");
+  if (!session.user.emailVerified) redirect("/auth/verify-email");
   if (session.user.totpEnabled) redirect("/dashboard");
 
   const setup = await initTotpSetupAction();
-  if (setup.error || !setup.qrCodeUrl || !setup.secret) redirect("/signin");
+  if (setup.error || !setup.qrCodeUrl || !setup.secret) redirect("/auth/signin");
 
   return (
     <div className="auth-bg">
