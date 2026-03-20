@@ -53,7 +53,7 @@ export function ResetPasswordForm({ token }: Props) {
 
       setSuccess(true);
       toast.success("Password reset successfully!");
-      setTimeout(() => router.push("/signin"), 2000);
+      setTimeout(() => router.push("/auth/signin"), 2000);
     } catch {
       setError("An unexpected error occurred. Please try again.");
       setLoading(false);

@@ -32,7 +32,7 @@ async function verifyToken(token: string): Promise<boolean> {
 
 export default async function ResetPasswordPage({ params }: Props) {
   const { token } = params;
-  if (!token) redirect("/forgot-password");
+  if (!token) redirect("/auth/forgot-password");
 
   const isValid = await verifyToken(token);
 
@@ -43,7 +43,7 @@ export default async function ResetPasswordPage({ params }: Props) {
           <span className="auth-logo-icon"><Shield size={17} /></span>
           {APP_TITLE}
         </Link>
-        <Link href="/signin" className="auth-nav-link">Sign in →</Link>
+        <Link href="/auth/signin" className="auth-nav-link">Sign in →</Link>
       </nav>
 
       <div className="auth-card">
@@ -84,10 +84,10 @@ export default async function ResetPasswordPage({ params }: Props) {
               Reset links expire after 1 hour and can only be used once.
               Request a new one to continue.
             </div>
-            <Link href="/forgot-password" className="btn-auth btn-auth-primary" style={{ textDecoration: "none" }}>
+            <Link href="/auth/forgot-password" className="btn-auth btn-auth-primary" style={{ textDecoration: "none" }}>
               Request new reset link
             </Link>
-            <Link href="/signin" className="btn-auth btn-auth-ghost" style={{ textDecoration: "none" }}>
+            <Link href="/auth/signin" className="btn-auth btn-auth-ghost" style={{ textDecoration: "none" }}>
               Back to sign in
             </Link>
           </div>
@@ -95,7 +95,7 @@ export default async function ResetPasswordPage({ params }: Props) {
       </div>
 
       <p className="auth-footer-note">
-        Remembered it? <Link href="/signin">Sign in</Link>
+        Remembered it? <Link href="/auth/signin">Sign in</Link>
       </p>
     </div>
   );
