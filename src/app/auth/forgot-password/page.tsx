@@ -27,7 +27,7 @@ export default async function ForgotPasswordPage() {
           <span className="auth-logo-icon"><Shield size={17} /></span>
           {APP_TITLE}
         </Link>
-        <Link href="/signin" className="auth-nav-link">
+        <Link href="/auth/signin" className="auth-nav-link">
           Sign in →
         </Link>
       </nav>
@@ -47,7 +47,7 @@ export default async function ForgotPasswordPage() {
 
         <div style={{ marginTop: "16px", textAlign: "center" }}>
           <Link
-            href="/signin"
+            href="/auth/signin"
             style={{
               display: "inline-flex", alignItems: "center", gap: "5px",
               fontSize: "13px", color: "var(--muted)", textDecoration: "none",

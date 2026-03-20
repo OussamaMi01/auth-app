@@ -172,7 +172,7 @@ export function SendResetEmail() {
       <div className="auth-divider"><span>or</span></div>
 
       <Link
-        href="/signup"
+        href="/auth/signup"
         className="btn-auth btn-auth-ghost"
         style={{ textDecoration: "none", textAlign: "center" }}
       >
