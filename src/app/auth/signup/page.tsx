@@ -97,7 +97,7 @@ export default function SignUpPage() {
           <span className="auth-logo-icon"><Shield size={17} /></span>
           {APP_TITLE}
         </Link>
-        <Link href="/signin" className="auth-nav-link">
+        <Link href="/auth/signin" className="auth-nav-link">
           Sign in →
         </Link>
       </nav>
@@ -240,7 +240,7 @@ export default function SignUpPage() {
 
         <div className="auth-divider"><span>or</span></div>
 
-        <Link href="/signin" className="btn-auth btn-auth-ghost" style={{ textDecoration: "none" }}>
+        <Link href="/auth/signin" className="btn-auth btn-auth-ghost" style={{ textDecoration: "none" }}>
           Sign in to existing account
         </Link>
       </div>
